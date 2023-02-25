@@ -23,11 +23,12 @@ def inference(model_inputs:dict) -> dict:
     prompt = model_inputs.get('prompt', None)
     if prompt == None:
         return {'message': "No prompt provided"}
-    
+
     # Run the model
     input_ids = tokenizer(prompt, return_tensors="pt").input_ids.to("cuda")
     output = model.generate(input_ids, max_length=100)
-    result = tokenizer.decode(output[0], skip_special_tokens=True)
+    output_text = tokenizer.decode(output[0], skip_special_tokens=True)
 
     # Return the results as a dictionary
+    result = { "output": output_text }
     return result
